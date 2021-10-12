@@ -1,64 +1,96 @@
 
 ---
-- name: Install Python3 and docker
+- name: Install python3, docker, docker-compose
   hosts: all
   become: yes
+  gather_facts: False
   tasks:
-    - name: Install Python3
+    - name: Install python3 and docker
       vars:
-        ansible_python_interpreter: /usr/bin/python  # Use python3 globally but swith to python2 when needed (eg when using yum)
+        ansible_python_interpreter: /usr/bin/python
       yum:
         name:
           - python3
           - docker
         update_cache: yes
         state: present
-
-- name: Install docker-compose
-  hosts: all
-  become: yes
-  tasks:
-    - name: Install docker-compose
-      get_url:
+    - name: Install Docker-compose
+      get_url: 
         url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-{{lookup('pipe', 'uname -m')}}
         dest: /usr/local/bin/docker-compose
         mode: +x
-
-- name: Start docker daemon
-  hosts: all
-  become: yes
-  tasks:
-    - name: start the docker daemon
+    - name: Start docker daemon
       systemd:
-         name: docker
-         state: started
-    - name: Install docker-compose
+        name: docker
+        state: started
+    - name: Install docker python module
       pip:
-        name:
+        name: 
           - docker
-          - docker_compose
+          - docker-compose
 
 
-- name: Add ec2-user to docker group
-  hosts: all
-  become: yes
-  tasks:
-    - name: add ec2-user to docker group
-      user:
-        name: ec2-user
-        groups: docker
-        append: yes
-    - name: Reconnect to server session
-      meta: reset_connection
 
-- name: Start Docker containers
-  hosts: all
-  tasks:
-    - name: Copy docker compose
-      copy:
-        src: docker-compose.yaml
-        dest: /home/ec2-user/docker-compose.yaml
-    - name: Start container from compose
-      docker_compose:
-        project_src: /home/ec2-user
-        state: present
+# ---
+# - name: Install Python3 and docker
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: Install Python3
+#       vars:
+#         ansible_python_interpreter: /usr/bin/python  # Use python3 globally but swith to python2 when needed (eg when using yum)
+#       yum:
+#         name:
+#           - python3
+#           - docker
+#         update_cache: yes
+#         state: present
+
+# - name: Install docker-compose
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: Install docker-compose
+#       get_url:
+#         url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-{{lookup('pipe', 'uname -m')}}
+#         dest: /usr/local/bin/docker-compose
+#         mode: +x
+
+# - name: Start docker daemon
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: start the docker daemon
+#       systemd:
+#          name: docker
+#          state: started
+#     - name: Install docker-compose
+#       pip:
+#         name:
+#           - docker
+#           - docker_compose
+
+
+# - name: Add ec2-user to docker group
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: add ec2-user to docker group
+#       user:
+#         name: ec2-user
+#         groups: docker
+#         append: yes
+#     - name: Reconnect to server session
+#       meta: reset_connection
+
+# - name: Start Docker containers
+#   hosts: all
+#   tasks:
+#     - name: Copy docker compose
+#       copy:
+#         src: docker-compose.yaml
+#         dest: /home/ec2-user/docker-compose.yaml
+#     - name: Start container from compose
+#       docker_compose:
+#         project_src: /home/ec2-user
+#         state: present
