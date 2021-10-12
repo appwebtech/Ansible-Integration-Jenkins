@@ -37,3 +37,26 @@ In AWS, I will spin two EC2 instances with t2.micros which will be the **Managed
 
 ![AWS-servers](./images/image-4.png)
 
+## Jenkins
+
+I will create a new Jenkins server in Digital Ocean in an Ubuntu (Debian) environment because the other one in AWS has critical projects that I'm working on. I'll install Docker and use it to containerize Jenkins. In a fresh installation, the password is in */var/jenkins_home/secrets/initialAdminPassword* if anyone is using the project. I'll paste mine for demo purposes and because I'll toss the whole server by the time I'll commit and push to GitHub then I'll grab a cuppa as the installations runs the "suggested plugins"..
+
+![Jenkins-1](./images/image-5.png)
+
+![Jenkins-2](./images/image-6.png)
+
+As usual I'll grab a cuppa as the installations runs the "suggested plugins".
+
+![Jenkins-3](./images/image-7.png)
+
+In Jenkins I have installed [SSH Agent](https://plugins.jenkins.io/ssh-agent/) and added SSH key of the Ansible droplet in order to enable connection capabilities. The latest OPENSSH keys are throwing errors in Jenkins, so I converted my key to the old RSA key hash.
+
+```shell
+ssh-keygen -p -f ~/.ssh/droplet -m pem -P "" -N ""
+```
+
+![Jenkins-4](./images/image-8.png)
+
+I have created a similar key for AWS EC2 instance and added it in Jenkins to enable it connect to AWS EC2 instances just the way I added the one of the droplet to enable connection to Digital Ocean.
+
+
