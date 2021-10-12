@@ -57,6 +57,27 @@ ssh-keygen -p -f ~/.ssh/droplet -m pem -P "" -N ""
 
 ![Jenkins-4](./images/image-8.png)
 
-I have created a similar key for AWS EC2 instance and added it in Jenkins to enable it connect to AWS EC2 instances just the way I added the one of the droplet to enable connection to Digital Ocean.
+I have created a similar key for AWS EC2 instance and added it in Jenkins to enable it connect to AWS EC2 instances just the way I added the one of the droplet to enable connection to Digital Ocean. I have also written the Jenkinsfile configuration to enable Jenkins connect to both Ansible node in DIgital Ocean and AWS EC2 instances.
 
+```Jenkinsfile
+pipeline {
+    agent any
+    stages {
+        stage("copy files to ansible server") {
+            steps {
+                script {
+                    echo "copying all files to ansible control node"
+                    sshagent(['ansible-server-key']) {
+                        sh "scp -o StrictHostKeyChecking=no ansible/* root@165.232.72.182:/root"
+
+                        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                            sh "scp ${keyfile} root@165.232.72.182:/root/ssh-key.pem"
+                        }
+                    }
+                }
+            }
+        }   
+    }
+}
+```
 
