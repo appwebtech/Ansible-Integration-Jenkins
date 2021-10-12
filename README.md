@@ -81,6 +81,109 @@ pipeline {
 }
 ```
 
-After pushing to GitHub, I configured the project with Jenkins and created a build which ran successfully.
+After pushing to GitHub, I configured the project with Jenkins and created a build which ran successfully. Ansible files have also been copied successfully by Jenkins to Ansible server together with the *ssh-key.pem* file.
 
 ![Jenkins-5](./images/image-9.png)
+
+![Jenkins-6](./images/image-10.png)
+
+Console output
+
+```console
+Started by user Joseph
+Lightweight checkout support not available, falling back to full checkout.
+Checking out git https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git into /var/jenkins_home/workspace/ansible-pipeline@script to read Jenkinsfile
+The recommended git tool is: NONE
+using credential Github-GCP
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ansible-pipeline@script/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git # timeout=10
+Fetching upstream changes from https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+using GIT_SSH to set credentials ghp credential
+ > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
+ > git rev-parse feature/ansible^{commit} # timeout=10
+Checking out Revision 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 (refs/remotes/origin/feature/ansible)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 # timeout=10
+Commit message: "Updated File"
+ > git rev-list --no-walk 11070f5968fa89554b9a47edacdc2833f4518514 # timeout=10
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/ansible-pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential Github-GCP
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ansible-pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git # timeout=10
+Fetching upstream changes from https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+using GIT_SSH to set credentials ghp credential
+ > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
+ > git rev-parse feature/ansible^{commit} # timeout=10
+Checking out Revision 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 (refs/remotes/origin/feature/ansible)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 # timeout=10
+Commit message: "Updated File"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (copy files to ansible server)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+copying all files to ansible control node
+[Pipeline] sshagent
+[ssh-agent] Using credentials root
+[ssh-agent] Looking for ssh-agent implementation...
+[ssh-agent]   Exec ssh-agent (binary ssh-agent on a remote machine)
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-AgXyYSLjgwvf/agent.1168
+SSH_AGENT_PID=1170
+Running ssh-add (command line suppressed)
+Identity added: /var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_590793245885132112.key (/var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_590793245885132112.key)
+[ssh-agent] Started.
+[Pipeline] {
+[Pipeline] sh
++ scp -o StrictHostKeyChecking=no ansible/ansible.cfg ansible/docker-compose.yaml ansible/hosts ansible/inventory_aws_ec2.yaml ansible/my-playbook.yaml root@139.59.167.35:/root
+Warning: Permanently added '139.59.167.35' (ECDSA) to the list of known hosts.
+[Pipeline] withCredentials
+Masking supported pattern matches of $keyfile
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [keyfile]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ scp **** root@139.59.167.35:/root/ssh-key.pem
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+$ ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 1170 killed;
+[ssh-agent] Stopped.
+[Pipeline] // sshagent
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+
