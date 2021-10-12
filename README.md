@@ -33,4 +33,9 @@ I will also configure AWS credentials to enable connection from Ansible to AWS. 
 
 ## EC2 Instances
 
+In AWS, I will spin two EC2 instances with t2.micros which will be the **Managed Server Nodes** by the **Ansible Server Node** in Digital Ocean from the Jenkins pipeline.
+
+![AWS-servers](./images/image-4.png)
+
+
 
