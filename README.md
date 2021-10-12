@@ -105,11 +105,11 @@ using GIT_SSH to set credentials ghp credential
  > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
  > git rev-parse feature/ansible^{commit} # timeout=10
-Checking out Revision 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 (refs/remotes/origin/feature/ansible)
+Checking out Revision c7eb07cf70f930791fe26da949a502eaf8f42880 (refs/remotes/origin/feature/ansible)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 # timeout=10
-Commit message: "Updated File"
- > git rev-list --no-walk 11070f5968fa89554b9a47edacdc2833f4518514 # timeout=10
+ > git checkout -f c7eb07cf70f930791fe26da949a502eaf8f42880 # timeout=10
+Commit message: "Fix security warning for pem File"
+ > git rev-list --no-walk 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 # timeout=10
 Running in Durability level: MAX_SURVIVABILITY
 [Pipeline] Start of Pipeline
 [Pipeline] node
@@ -130,10 +130,10 @@ using GIT_SSH to set credentials ghp credential
  > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
  > git rev-parse feature/ansible^{commit} # timeout=10
-Checking out Revision 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 (refs/remotes/origin/feature/ansible)
+Checking out Revision c7eb07cf70f930791fe26da949a502eaf8f42880 (refs/remotes/origin/feature/ansible)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 99adadbcd93d26f29faf3ef042b77e6a0a70e5a6 # timeout=10
-Commit message: "Updated File"
+ > git checkout -f c7eb07cf70f930791fe26da949a502eaf8f42880 # timeout=10
+Commit message: "Fix security warning for pem File"
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] withEnv
@@ -149,22 +149,18 @@ copying all files to ansible control node
 [ssh-agent] Looking for ssh-agent implementation...
 [ssh-agent]   Exec ssh-agent (binary ssh-agent on a remote machine)
 $ ssh-agent
-SSH_AUTH_SOCK=/tmp/ssh-AgXyYSLjgwvf/agent.1168
-SSH_AGENT_PID=1170
+SSH_AUTH_SOCK=/tmp/ssh-avCjM73SRVoS/agent.1309
+SSH_AGENT_PID=1311
 Running ssh-add (command line suppressed)
-Identity added: /var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_590793245885132112.key (/var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_590793245885132112.key)
+Identity added: /var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_15354759313785232833.key (/var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_15354759313785232833.key)
 [ssh-agent] Started.
 [Pipeline] {
 [Pipeline] sh
 + scp -o StrictHostKeyChecking=no ansible/ansible.cfg ansible/docker-compose.yaml ansible/hosts ansible/inventory_aws_ec2.yaml ansible/my-playbook.yaml root@139.59.167.35:/root
-Warning: Permanently added '139.59.167.35' (ECDSA) to the list of known hosts.
 [Pipeline] withCredentials
 Masking supported pattern matches of $keyfile
 [Pipeline] {
 [Pipeline] sh
-Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
-		 Affected argument(s) used the following variable(s): [keyfile]
-		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
 + scp **** root@139.59.167.35:/root/ssh-key.pem
 [Pipeline] }
 [Pipeline] // withCredentials
@@ -172,7 +168,7 @@ Warning: A secret was passed to "sh" using Groovy String interpolation, which is
 $ ssh-agent -k
 unset SSH_AUTH_SOCK;
 unset SSH_AGENT_PID;
-echo Agent pid 1170 killed;
+echo Agent pid 1311 killed;
 [ssh-agent] Stopped.
 [Pipeline] // sshagent
 [Pipeline] }
@@ -186,4 +182,10 @@ echo Agent pid 1170 killed;
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 ```
+
+## Executing Ansible Playbook
+
+I have all the necessary files copied and moved to Ansible server, the next thing anticipated is execution of the playbook from Jenkins server by triggering the remote server.
+
+
 
