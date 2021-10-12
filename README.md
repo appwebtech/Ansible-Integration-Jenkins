@@ -37,5 +37,3 @@ In AWS, I will spin two EC2 instances with t2.micros which will be the **Managed
 
 ![AWS-servers](./images/image-4.png)
 
-
-
