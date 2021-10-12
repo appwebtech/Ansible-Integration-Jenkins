@@ -7,7 +7,7 @@
 
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/jenkins.png" width="100">
 
-  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-oceal-logo.png" width="100">
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-ocean-logo.png" width="100">
 
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/aws-logo.png" width="100">
 
