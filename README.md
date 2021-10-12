@@ -89,7 +89,7 @@ After pushing to GitHub, I configured the project with Jenkins and created a bui
 
 Console output
 
-```console
+```shell
 Started by user Joseph
 Lightweight checkout support not available, falling back to full checkout.
 Checking out git https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git into /var/jenkins_home/workspace/ansible-pipeline@script to read Jenkinsfile
@@ -185,7 +185,192 @@ Finished: SUCCESS
 
 ## Executing Ansible Playbook
 
-I have all the necessary files copied and moved to Ansible server, the next thing anticipated is execution of the playbook from Jenkins server by triggering the remote server.
+I have all the necessary files copied and moved to Ansible server, the next thing anticipated is execution of the playbook from Jenkins server by triggering the remote server. The complete Jenkinsfile script will be as follows.
 
+```Jenkinsfile
 
+pipeline {
+    agent any
+    stages {
+        stage("copy files to ansible server") {
+            steps {
+                script {
+                    echo "copying all files to ansible control node"
+                    sshagent(['ansible-server-key']) {
+                        sh "scp -o StrictHostKeyChecking=no ansible/* root@139.59.167.35:/root"
 
+                        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                            sh 'scp $keyfile root@139.59.167.35:/root/ssh-key.pem'
+                        }
+                    }
+                }
+            }
+        }
+        stage("execute ansible playbook with EC2 Instances") {
+            steps {
+                script {
+                    echo "calling ansible playbook to configure EC2 instances"
+                    def remote = [:]
+                    remote.name = "ansible-server"
+                    remote.host = "139.59.167.35"
+                    remote.allowAnyHosts = true
+
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]){
+                        remote.user = user
+                        remote.identityFile = keyfile
+                        sshCommand remote: remote, command: "ansible-playbook my-playbook.yaml"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+After executing, the build threw some errors and the main reason is that I did have stopped EC2 instances in AWS and Ansible server was trying to write into them. In order to get the code to pass, instead of declaring **all** in the playbook host files, you may want to add the server IP addresses.
+
+![Jenkins-7](./images/image-11.png)
+
+![Jenkins-8](./images/image-11-b.png)
+
+![Jenkins-9](./images/image-11-c.png)
+
+I have Docker and Docker-compose installed in AWS two EC2 instances, and nginx is running in a docker container as anticipated.
+
+![Jenkins-10](./images/image-12.png)
+
+Jenkins console output
+
+```shell
+Started by user Joseph
+Lightweight checkout support not available, falling back to full checkout.
+Checking out git https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git into /var/jenkins_home/workspace/ansible-pipeline@script to read Jenkinsfile
+The recommended git tool is: NONE
+using credential Github-GCP
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ansible-pipeline@script/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git # timeout=10
+Fetching upstream changes from https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+using GIT_SSH to set credentials ghp credential
+ > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
+ > git rev-parse feature/ansible^{commit} # timeout=10
+Checking out Revision 23412fcab2b05ed7328c8b74b9dc28ff8e27ad3f (refs/remotes/origin/feature/ansible)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 23412fcab2b05ed7328c8b74b9dc28ff8e27ad3f # timeout=10
+Commit message: "Refactored File"
+ > git rev-list --no-walk 23412fcab2b05ed7328c8b74b9dc28ff8e27ad3f # timeout=10
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/ansible-pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential Github-GCP
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ansible-pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git # timeout=10
+Fetching upstream changes from https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+using GIT_SSH to set credentials ghp credential
+ > git fetch --tags --force --progress -- https://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@github.com/appwebtech/Ansible-Integration-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/feature/ansible^{commit} # timeout=10
+ > git rev-parse feature/ansible^{commit} # timeout=10
+Checking out Revision 23412fcab2b05ed7328c8b74b9dc28ff8e27ad3f (refs/remotes/origin/feature/ansible)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 23412fcab2b05ed7328c8b74b9dc28ff8e27ad3f # timeout=10
+Commit message: "Refactored File"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (copy files to ansible server)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+copying all files to ansible control node
+[Pipeline] sshagent
+[ssh-agent] Using credentials root
+[ssh-agent] Looking for ssh-agent implementation...
+[ssh-agent]   Exec ssh-agent (binary ssh-agent on a remote machine)
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-7HIeUhxx4whB/agent.2069
+SSH_AGENT_PID=2071
+Running ssh-add (command line suppressed)
+Identity added: /var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_8120171997839084604.key (/var/jenkins_home/workspace/ansible-pipeline@tmp/private_key_8120171997839084604.key)
+[ssh-agent] Started.
+[Pipeline] {
+[Pipeline] sh
++ scp -o StrictHostKeyChecking=no ansible/ansible.cfg ansible/docker-compose.yaml ansible/hosts ansible/inventory_aws_ec2.yaml ansible/my-playbook.yaml root@139.59.167.35:/root
+[Pipeline] withCredentials
+Masking supported pattern matches of $keyfile
+[Pipeline] {
+[Pipeline] sh
++ scp **** root@139.59.167.35:/root/ssh-key.pem
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+$ ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 2071 killed;
+[ssh-agent] Stopped.
+[Pipeline] // sshagent
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (execute ansible playbook with EC2 Instances)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+calling ansible playbook to configure EC2 instances
+[Pipeline] withCredentials
+Masking supported pattern matches of $keyfile
+[Pipeline] {
+[Pipeline] sshCommand
+Executing command on ansible-server[139.59.167.35]: ansible-playbook my-playbook.yaml sudo: false
+
+PLAY [Install python3, docker, docker-compose] *********************************
+
+TASK [Install python3 and docker] **********************************************
+ok: [ec2-46-137-34-225.eu-west-1.compute.amazonaws.com]
+ok: [ec2-18-203-99-123.eu-west-1.compute.amazonaws.com]
+
+TASK [Install Docker-compose] **************************************************
+ok: [ec2-46-137-34-225.eu-west-1.compute.amazonaws.com]
+ok: [ec2-18-203-99-123.eu-west-1.compute.amazonaws.com]
+
+TASK [Start docker daemon] *****************************************************
+ok: [ec2-46-137-34-225.eu-west-1.compute.amazonaws.com]
+ok: [ec2-18-203-99-123.eu-west-1.compute.amazonaws.com]
+
+TASK [Install docker python module] ********************************************
+ok: [ec2-18-203-99-123.eu-west-1.compute.amazonaws.com]
+ok: [ec2-46-137-34-225.eu-west-1.compute.amazonaws.com]
+
+PLAY RECAP *********************************************************************
+ec2-18-203-99-123.eu-west-1.compute.amazonaws.com : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ec2-46-137-34-225.eu-west-1.compute.amazonaws.com : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
