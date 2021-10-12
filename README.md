@@ -5,8 +5,6 @@
 
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/Ansible-logo.png" width="100">
 
-<<<<<<< HEAD
-=======
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/jenkins.png" width="48">
 
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-ocean-logo.png" width="120">
@@ -14,7 +12,6 @@
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/aws-logo.png" width="85">
 
 
->>>>>>> f5eda0dd5fe48c9a53951d7661ab75b4e653022d
 </p>
 
 ----
