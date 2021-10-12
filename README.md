@@ -5,6 +5,13 @@
 
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/Ansible-logo.png" width="100">
 
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/jenkins.png" width="100">
+
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-oceal-logo.png" width="100">
+
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/aws-logo.png" width="100">
+
+
 </p>
 
 ----
