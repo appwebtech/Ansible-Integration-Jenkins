@@ -18,7 +18,7 @@
 
 ## Introduction
 
-I will be integrating Ansible in Jenkins automation server to reliably build, test and deploy a Java-Maven application. Instead of installing the tools inside Jenkins server / container, I will use a different approach. I'll create two dedicated servers in Digital Ocean, one for Jenkins and the one for Ansible. This time I'm doing it remotely as it makes sense from a professional setting, also hey, this is Cloud Computing so I'll take advantage of it.
+I will be integrating Ansible in Jenkins automation server to reliably build, test and deploy a Java-Maven application. Instead of installing the tools inside Jenkins server / container, I will use a different approach. I'll create two dedicated servers in Digital Ocean, one for Jenkins and the other for Ansible. This time I'm doing it remotely as it makes sense from a professional setting, also hey, this is Cloud Computing so I'll take advantage of it.
 
 Once Ansible is set up, I'll execute a playbook from Jenkins Pipeline to configure 2 EC2 instances in AWS by installing Docker and Docker-compose on them. It's good to use multi-cloud technologies and when I get well versed with [**Azure**](https://azure.microsoft.com/en-gb/free/cloud-services/), I will do cross-cloud deployments in both AWS and Azure.
 
@@ -94,8 +94,11 @@ After pushing to GitHub, I configured the project with Jenkins and created a bui
 
 ![Jenkins-6](./images/image-10.png)
 
-Console output
 
+<details>
+  <summary>Click to expand and view logs</summary>
+  
+  ### Console Output
 ```shell
 Started by user Joseph
 Lightweight checkout support not available, falling back to full checkout.
@@ -189,6 +192,7 @@ echo Agent pid 1311 killed;
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 ```
+</details>
 
 ## Executing Ansible Playbook
 
@@ -246,8 +250,11 @@ I have Docker and Docker-compose installed in AWS two EC2 instances, and nginx i
 
 ![Jenkins-10](./images/image-12.png)
 
-Jenkins console output
-
+### Jenkins console output
+<details>
+  <summary>Click to expand and view logs</summary>
+  
+  ### Console Output
 ```shell
 Started by user Joseph
 Lightweight checkout support not available, falling back to full checkout.
@@ -381,3 +388,4 @@ ec2-46-137-34-225.eu-west-1.compute.amazonaws.com : ok=4    changed=0    unreach
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 ```
+</details>
