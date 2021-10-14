@@ -1,4 +1,4 @@
-# Ansible Integration in Jenkins
+# Ansible Integration in Jenkins CI/CD Pipeline
 
 <p float="left">
   <img src="https://github.com/appwebtech/Deploy-Docker-With-Terraform/blob/main/images/docker.png" width="90">
