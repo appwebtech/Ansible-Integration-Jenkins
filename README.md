@@ -2,16 +2,10 @@
 
 <p float="left">
   <img src="https://github.com/appwebtech/Deploy-Docker-With-Terraform/blob/main/images/docker.png" width="90">
-
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/Ansible-logo.png" width="100">
-
-
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/jenkins.png" width="48">
-
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-ocean-logo.png" width="120">
-
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/aws-logo.png" width="85">
-
 </p>
 
 ----
@@ -51,8 +45,6 @@ I will create a new Jenkins server in Digital Ocean in an Ubuntu (Debian) enviro
 ![Jenkins-1](./images/image-5.png)
 
 ![Jenkins-2](./images/image-6.png)
-
-As usual I'll grab a cuppa as the installations runs the "suggested plugins".
 
 ![Jenkins-3](./images/image-7.png)
 
