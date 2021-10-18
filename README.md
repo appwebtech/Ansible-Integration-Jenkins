@@ -12,15 +12,15 @@
 
 ## Introduction
 
-I will be integrating Ansible in Jenkins automation server to reliably build, test and deploy a Java-Maven application. Instead of installing the tools inside Jenkins server / container, I will use a different approach. I'll create two dedicated servers in Digital Ocean, one for Jenkins and the other for Ansible. This time I'm doing it remotely as it makes sense from a professional setting, also hey, this is Cloud Computing so I'll take advantage of it.
+I will be integrating Ansible in Jenkins automation server to reliably build, test and deploy a Java-Maven application. Instead of installing the tools inside Jenkins server / container, I will use a different approach. I'll create two dedicated servers in Digital Ocean, one for Jenkins and the other for Ansible. This time I'm doing it remotely as it makes sense from a professional setting, also hey, this is Cloud Computing so I'll have to work remotely.
 
-Once Ansible is set up, I'll execute a playbook from Jenkins Pipeline to configure 2 EC2 instances in AWS by installing Docker and Docker-compose on them. It's good to use multi-cloud technologies and when I get well versed with [**Azure**](https://azure.microsoft.com/en-gb/free/cloud-services/), I will do cross-cloud deployments in both AWS and Azure.
+Once Ansible is set up, I'll execute a playbook from Jenkins Pipeline to configure two EC2 instances in AWS by installing Docker and Docker-compose on them. It's good to use multi-cloud technologies and when I get well versed with [**Azure**](https://azure.microsoft.com/en-gb/free/cloud-services/), I will do cross-cloud deployments in both AWS and Azure.
 
 The next thing I'll do is create a pipeline in Jenkins and connect a Java Maven application. Then I'll create a Jenkinsfile that executes Ansible Playbook on the remote Ansible server.
 
 ## Ansible Node
 
-I will instantiate a droplet and install **ansible** and Python libraries (**boto3** with **botocore**). I'll also verify that Python3 is installed and if not, install it.
+I will instantiate a droplet and install **ansible** and Python libraries (**boto3** and **botocore**). I'll also verify that Python3 is installed and if not, install it.
 
 I've made the necessary installations and Ansible server is up and running.
 
@@ -230,7 +230,7 @@ pipeline {
 }
 ```
 
-After executing, the build threw some errors and the main reason is that I did have stopped EC2 instances in AWS and Ansible server was trying to write into them. In order to get the code to pass, instead of declaring **all** in the playbook host files, you may want to add the server IP addresses.
+After executing, the build threw some errors and the main reason is that I had stopped EC2 instances in AWS and Ansible server was trying to write into them. In order to get the code to pass, instead of declaring **all** in the playbook host files, you may want to add the server IP addresses.
 
 ![Jenkins-7](./images/image-11.png)
 
