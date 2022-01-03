@@ -3,18 +3,13 @@
 <p float="left">
   <img src="https://github.com/appwebtech/Deploy-Docker-With-Terraform/blob/main/images/docker.png" width="90">
   <img src="https://github.com/appwebtech/Ansible-Automation-App-Deployment/blob/main/images/Ansible-logo.png" width="100">
-<<<<<<< HEAD
-=======
 
->>>>>>> 6fc772eda0ef5e55f81698ce85223cd29441b7c8
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/jenkins.png" width="48">
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/digital-ocean-logo.png" width="120">
   <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/aws-logo.png" width="85">
-<<<<<<< HEAD
-=======
+  <img src="https://github.com/appwebtech/Ansible-Integration-Jenkins/blob/main/images/git-Logo.png" width="120">
 
 
->>>>>>> 6fc772eda0ef5e55f81698ce85223cd29441b7c8
 </p>
 
 ----
@@ -389,7 +384,7 @@ ec2-46-137-34-225.eu-west-1.compute.amazonaws.com : ok=4    changed=0    unreach
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 ```
-<<<<<<< HEAD
+
 </details>
-=======
->>>>>>> 6fc772eda0ef5e55f81698ce85223cd29441b7c8
+
+
